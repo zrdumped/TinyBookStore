@@ -2,6 +2,8 @@ package dao.impl;
 
 import java.util.List;
 
+import model.Cart;
+import model.Order;
 import model.User;
 
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -36,5 +38,29 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao {
 				.find("from User");
 		return users;
 	}
-
+	
+	public User login(String username, String password){
+		List<User> u = (List<User>) this.getHibernateTemplate().find("from User where username=? and password=?", username, password);
+	if(u.size()>0){
+		return u.get(0);
+	}
+	return null;
+	}
+	
+	public Integer signup(String username, String password){
+		List<User> u = (List<User>) this.getHibernateTemplate().find("from User where username=? ", username);
+	if(u.size()>0){
+		return -1;
+	}
+	else{
+		User user = new User(username, password, "user");
+		return (Integer)getHibernateTemplate().save(user);
+	}
+	}
+	
+	public User getUserByUsername(String username){
+		List<User> u = (List<User>) this.getHibernateTemplate().find("from User where username=? ", username);
+		return u.get(0);
+	}
+	
 }

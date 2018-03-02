@@ -2,8 +2,7 @@ $(function() {
 
 	$("#save").click(function(e) {
 		var userid = $("#userid").val();
-		var date = $("input[name='date']").val();
-		console.log(userid, date);
+		console.log(userid);
 
 		var dataset = e.currentTarget.dataset;
 		var id = dataset.id;
@@ -16,13 +15,11 @@ $(function() {
 				data : {
 					id : id,
 					userid : userid,
-					date : date
 				},
 				success : function(data) {
 					console.log(id);
 					bootbox.alert({
-						message : 'Modify Successfully! '
-							+ 'PS: No change if foreign key does not exist!',
+						message : 'Modify Successfully! ',
 					    callback : function() {
 							location.reload();
 						}
@@ -36,12 +33,10 @@ $(function() {
 				dataType : "text",
 				data : {
 					userid : userid,
-					date : date
 				},
 				success : function(data) {
 					bootbox.alert({
-						message : 'Add Successfully! '
-							+ 'PS: No change if foreign key does not exist!',
+						message : 'Add Successfully! ',
 						callback : function() {
 							location.reload();
 						}
@@ -79,8 +74,7 @@ $(function() {
 						success : function(data) {
 							console.log(id);
 							bootbox.alert({
-								message : 'Delete Successfully! '
-									+ 'PS: No change if foreign key does not exist!',
+								message : 'Delete Successfully! ',
 							    callback : function() {
 							       location.reload();
 							    }
@@ -97,7 +91,6 @@ $(function() {
 		$('#modalTitle').html("Add");
 
 		$("#userid").val("");
-		$("input[name='date']").val("");
 
 		$("#save").attr("data-id", "");
 		$('#modal').modal('show');
@@ -110,7 +103,6 @@ $(function() {
 		console.log(id);
 
 		$("#userid").val(dataset.userid);
-		$("input[name='date']").val(dataset.date);
 
 		$("#save").attr("data-id", dataset.id);
 		$('#modal').modal('show');

@@ -12,7 +12,10 @@ public class OrderitemDaoImpl extends HibernateDaoSupport implements
 		OrderitemDao {
 
 	public Integer save(Orderitem orderitem) {
-		return (Integer) getHibernateTemplate().save(orderitem);
+		int value = (Integer) getHibernateTemplate().save(orderitem);
+		getHibernateTemplate().flush();
+		getHibernateTemplate().clear();
+		return value;
 	}
 
 	public void delete(Orderitem orderitem) {

@@ -8,61 +8,152 @@
 	<constant name="struts.devMode" value="true" />
 	<package name="process" extends="struts-default">
 		<!-- Book -->
-		<action name="allBooksPro" class="action.AllBooksAction">
+		<action name="allBooksPro" class="action.BookAction" method="getAllBooks">
+			<result name="success">/bookstore/jsp/book.jsp</result>
+		</action>		
+		<action name="addBookPro" class="action.BookAction" method="addBook">
 			<result name="success">/bookstore/jsp/book.jsp</result>
 		</action>
-		<action name="addBookPro" class="action.AddBookAction">
+		<action name="updateBookPro" class="action.BookAction" method="updateBook">
 			<result name="success">/bookstore/jsp/book.jsp</result>
 		</action>
-		<action name="updateBookPro" class="action.UpdateBookAction">
+		<action name="deleteBookPro" class="action.BookAction" method="deleteBook">
 			<result name="success">/bookstore/jsp/book.jsp</result>
 		</action>
-		<action name="deleteBookPro" class="action.DeleteBookAction">
-			<result name="success">/bookstore/jsp/book.jsp</result>
+		<action name="allBooksClientPro" class="action.BookAction"  method="getAllBooks">
+			<result name="success">/bookstore/jsp/home.jsp</result>
+		</action>
+		<action name="detailBookPro" class="action.BookAction" method="getBook" >
+			<result name="success">/bookstore/jsp/detail.jsp</result>
+		</action>
+		<action name="briefDetailBookPro" class="action.BookAction" method="getBookBrief" >
+		</action>
+		<action name="searchPro" class="action.BookAction" method="search">
+			<result name="success">index.jsp</result>
 		</action>
 
 		<!-- Order -->
-		<action name="allOrdersPro" class="action.AllOrdersAction">
+		<action name="allOrdersPro" class="action.OrderAction" method="getAllOrders">
 			<result name="success">/bookstore/jsp/order.jsp</result>
 		</action>
-		<action name="addOrderPro" class="action.AddOrderAction">
+		<action name="addOrderPro" class="action.OrderAction" method="addOrder">
 			<result name="success">/bookstore/jsp/order.jsp</result>
 		</action>
-		<action name="updateOrderPro" class="action.UpdateOrderAction">
+		<action name="updateOrderPro" class="action.OrderAction" method="updateOrder"> 
 			<result name="success">/bookstore/jsp/order.jsp</result>
 		</action>
-		<action name="deleteOrderPro" class="action.DeleteOrderAction">
+		<action name="deleteOrderPro" class="action.OrderAction" method="deleteOrder">
 			<result name="success">/bookstore/jsp/order.jsp</result>
+		</action>
+		<action name="myOrderPro" class="action.OrderAction" method="getMyOrder">
+			<result name="success">/bookstore/jsp/myorder.jsp</result>
 		</action>
 
 		<!-- Orderitem -->
-		<action name="allOrderitemsPro" class="action.AllOrderitemsAction">
+		<action name="allOrderitemsPro" class="action.OrderitemAction" method="getAllOrderitems">
 			<result name="success">/bookstore/jsp/orderitem.jsp</result>
 		</action>
-		<action name="addOrderitemPro" class="action.AddOrderitemAction">
+		<action name="addOrderitemPro" class="action.OrderitemAction" method="addOrderitem">
 			<result name="success">/bookstore/jsp/orderitem.jsp</result>
 		</action>
-		<action name="updateOrderitemPro" class="action.UpdateOrderitemAction">
+		<action name="updateOrderitemPro" class="action.OrderitemAction" method="updateOrderitem">
 			<result name="success">/bookstore/jsp/orderitem.jsp</result>
 		</action>
-		<action name="deleteOrderitemPro" class="action.DeleteOrderitemAction">
+		<action name="deleteOrderitemPro" class="action.OrderitemAction" method="deleteOrderitem"> 
+			<result name="success">/bookstore/jsp/orderitem.jsp</result>
+		</action>
+		<action name="calPricePro" class="action.OrderitemAction" method="calPrice">
 			<result name="success">/bookstore/jsp/orderitem.jsp</result>
 		</action>
 
 		<!-- User -->
-		<action name="allUsersPro" class="action.AllUsersAction">
+		<action name="allUsersPro" class="action.UserAction" method="getAllUsers">
 			<result name="success">/bookstore/jsp/user.jsp</result>
 		</action>
-		<action name="addUserPro" class="action.AddUserAction">
+		<action name="addUserPro" class="action.UserAction" method="addUser">
+		</action>
+		<action name="updateUserPro" class="action.UserAction" method="updateUser">
 			<result name="success">/bookstore/jsp/user.jsp</result>
 		</action>
-		<action name="updateUserPro" class="action.UpdateUserAction">
+		<action name="deleteUserPro" class="action.UserAction" method="deleteUser">
 			<result name="success">/bookstore/jsp/user.jsp</result>
 		</action>
-		<action name="deleteUserPro" class="action.DeleteUserAction">
-			<result name="success">/bookstore/jsp/user.jsp</result>
+		<action name="loginPro" class="action.UserAction" method="login">
+			<result name="success">index.jsp</result>
+			<result name="input">/bookstore/jsp/login.jsp</result>
+		</action>
+		<action name="signupPro" class="action.UserAction" method="signup">
+			<result name="success">/bookstore/jsp/login.jsp</result>
+			<result name="input">/bookstore/jsp/signup.jsp</result>
+		</action>
+		<action name="logoutPro" class="action.UserAction" method="logout">
+			<result name="success">index.jsp</result>
+		</action>
+		<action name="updateMyInfoPro" class="action.UserAction" method="updateMyInfo">
+		</action>
+		<action name="updatePasswordPro" class="action.UserAction" method="updatePassword">
+		</action>
+		<action name="uploadPhotoPro" class="action.UserAction" method='updateMyPhoto'>
+			<result name="success">/bookstore/jsp/myinfo.jsp</result>
+			<result name='input'>/bookstore/jsp/myinfo.jsp</result>
+		</action>
+		<action name="getPhotoPro" class="action.UserAction" method='getMyPhoto'>
 		</action>
 
+		
+		<!-- Cart -->
+		<action name="myCartPro" class="action.CartAction" method="getMyCarts">
+			<result name="success">/bookstore/jsp/cart.jsp</result>
+		</action>
+		<action name="addCartPro" class="action.CartAction" method="addCart">
+			<result name="success">/bookstore/jsp/home.jsp</result>
+		</action>
+		<action name="deleteCartPro" class="action.CartAction" method="deleteCart">
+			<result name="success">/bookstore/jsp/cart.jsp</result>
+		</action>
+		<action name="updateCartPro" class="action.CartAction" method="updateCart">
+			<result name="success">/bookstore/jsp/cart.jsp</result>
+		</action>
+		
+		<!-- Others -->
+		<action name="buyBookPro" class="action.BuyBookAction">
+			<result name="success">/bookstore/jsp/myorder.jsp</result>
+			<result name="error">/bookstore/jsp/cart.jsp</result>
+		</action>
+		<action name="loginPage">
+			<result>/bookstore/jsp/login.jsp</result>
+		</action>
+		<action name="signupPage">
+			<result>/bookstore/jsp/signup.jsp</result>
+		</action>
+		<action name="myInfoPro">
+			<result>/bookstore/jsp/myinfo.jsp</result>
+		</action>
+
+		
+
+		<!-- Sales -->
+		<action name="salesBookPro" class="action.SalesAction" method="getAllSalesBooks">
+			<result name="success">/bookstore/jsp/salesBook.jsp</result>
+		</action>
+		<action name="getSalesByDatePro" class="action.SalesAction" method="getSalesByDate">
+		</action>
+		<action name="salesUserPro" class="action.SalesAction" method="getAllSalesUsers">
+			<result name="success">/bookstore/jsp/salesUser.jsp</result>
+		</action>
+		<action name="salesTypePro" class="action.SalesAction" method="getAllSalesTypes">
+			<result name="success">/bookstore/jsp/salesType.jsp</result>
+		</action>
+		<action name="salesDatePro" class="action.SalesAction" method="getAllSalesDates">
+			<result name="success">/bookstore/jsp/salesDate.jsp</result>
+		</action>
+		<action name="salesMonthPro" class="action.SalesAction" method="getAllSalesMonths">
+			<result name="success">/bookstore/jsp/salesMonth.jsp</result>
+		</action>		
+		<action name="salesYearPro" class="action.SalesAction" method="getAllSalesYears">
+			<result name="success">/bookstore/jsp/salesYear.jsp</result>
+		</action>
+		
 		<action name="*">
 			<result>/{1}.jsp</result>
 		</action>

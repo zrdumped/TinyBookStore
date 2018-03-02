@@ -18,8 +18,38 @@
 <link href="<%=path%>/bookstore/css/dataTables.responsive.css"
 	rel="stylesheet">
 <link href="<%=path%>/bookstore/css/bookstore.css" rel="stylesheet">
-<link href="<%=path%>/bookstore/css/font-awesome.min.css"
-	rel="stylesheet" type="text/css">
+<link href="<%=path%>/bookstore/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	     <link rel="stylesheet" href="bookstore/css/validation.css">
+			<link rel="stylesheet" href="bookstore/css/bootstrap.min.css">  
+	<script src="bookstore/js/jquery.min.js"></script>
+	<script src="bookstore/js/bootstrap.min.js"></script>
+		
+<script>
+function showHint(amount, bookid)
+{
+	if(bookid.length==0){
+		return;
+	}
+	var xmlhttp;
+	if (window.XMLHttpRequest) 	
+	{// code for IE7+, Firefox, Chrome, Opera, Safari
+  		xmlhttp=new XMLHttpRequest();
+  	}
+	else
+  	{// code for IE6, IE5
+  		xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+ 	 }
+	xmlhttp.onreadystatechange=function()
+ 	{
+  		if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    	{
+   		 	document.getElementById("txtHint").innerHTML=xmlhttp.responseText;
+    	}
+  	}
+	xmlhttp.open("GET","calPricePro?amount="+amount+"&bookid="+bookid,true);
+	xmlhttp.send();
+}
+</script> 
 </head>
 
 <body>
@@ -37,44 +67,29 @@
 	    	bookList = (ArrayList<Book>) request.getAttribute("books");
 	    }
 	%>
-	<div id="wrapper">
 		<!-- Navigation -->
-		<nav class="navbar navbar-default navbar-static-top" role="navigation"
-			style="margin-bottom: 0">
-
-		<div class="navbar-header">
-			<a class="navbar-brand" href="#">BookStore</a>
-		</div>
-
-		<div class="navbar-default sidebar" role="navigation">
-			<div class="sidebar-nav navbar-collapse">
-				<ul class="nav" id="side-menu">
-					<li><a href="allUsersPro"><i class="fa fa-user fa-fw"></i>
-							Users</a></li>
-					<li><a href="allBooksPro"><i class="fa fa-book fa-fw"></i>
-							Books</a></li>
-					<li><a href="allOrdersPro"><i class="fa fa-reorder fa-fw"></i>
-							Orders</a></li>
-					<li><a href="allOrderitemsPro" class="active"><i
-							class="fa fa-table fa-fw"></i> Orderitems</a></li>
-				</ul>
-			</div>
-			<!-- /.sidebar-collapse -->
-		</div>
-		<!-- /.navbar-static-side --> </nav>
-
-		<div id="page-wrapper">
-			<div class="row">
-				<div class="col-lg-12">
-					<h1 class="page-header">Orderitems</h1>
-				</div>
-			</div>
+		<nav class="navbar  navbar-default " role="navigation">
+	<div class="container-fluid">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="allBooksClientPro">BOOK STORE</a>
+    </div>
+    <div>
+        <ul class="nav navbar-nav">
+            	<li><a href="allBooksPro"><span class="glyphicon glyphicon-book">Book</span></a></li>
+				<li><a href="allUsersPro"><span class="glyphicon glyphicon-user">User</span></a></li>
+				<li><a href="allOrdersPro"><span class="glyphicon glyphicon-th-list">Order</span></a></li>
+				<li><a href="allOrderitemsPro"  class="active"><span class="glyphicon glyphicon-th" style="padding-bottom:7px">Orderitem</span></a></li>
+				<li><a href="salesBookPro"><span class="glyphicon glyphicon-stats">Statistic</span></a></li>
+        </ul>
+    </div>
+	</div>
+</nav>
 			<!-- /.row -->
-			<div class="row">
+			<div class="container-fluid row">
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							add orderitem
+							<font style="font-size:30px">Orderitems</font>
 							<button class="btn btn-default" type="button" id="add">
 								<i class="fa fa-plus"></i>
 							</button>
@@ -90,6 +105,7 @@
 											<th>Orderid</th>
 											<th>Bookid</th>
 											<th>Amount</th>
+											<th>Price</th>
 											<th></th>
 										</tr>
 									</thead>
@@ -103,6 +119,7 @@
 											<td><%=orderitem.getOrderid()%></td>
 											<td><%=orderitem.getBookid()%></td>
 											<td><%=orderitem.getAmount()%></td>
+											<td><%=orderitem.getPrice()/100.0%></td>
 											<td>
 												<button class="btn btn-default delete" type="button"
 													data-id="<%=orderitem.getId()%>">
@@ -112,7 +129,8 @@
 													data-id="<%=orderitem.getId()%>"
 													data-orderid="<%=orderitem.getOrderid()%>"
 													data-bookid="<%=orderitem.getBookid()%>"
-													data-amount="<%=orderitem.getAmount()%>">
+													data-amount="<%=orderitem.getAmount()%>"
+													data-price="<%=orderitem.getPrice()/100.0%>">
 													<i class="fa fa-edit"></i>
 												</button>
 											</td>
@@ -131,10 +149,6 @@
 				<!-- /.col-lg-12 -->
 			</div>
 			<!-- /.row -->
-		</div>
-		<!-- /#page-wrapper -->
-	</div>
-	<!-- /#wrapper -->
 
 	<div class="modal fade" id="modal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
@@ -149,7 +163,7 @@
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-lg-12">
-							<form role="form">
+							<form role="form" id="registerform1">
 								<div class="form-group">
 								    <label>Orderid</label>
 								    <select class="form-control" id="orderid">
@@ -170,15 +184,18 @@
 											for (int i = 0; i < bookList.size(); i++) {
 												Book book = bookList.get(i);
 										%>
-										<option value="<%=book.getId()%>"><%=book.getId()%></option>
+										<option id="bookid" value="<%=book.getId()%>"><%=book.getId()%></option>
 										<%
 											}
 										%>
 									</select>
 								</div>
 								<div class="form-group">
-									<label>Amount</label> <input class="form-control" type="number"
-										name="amount">
+									<label>Amount</label> <input class="form-control" type="number" min="1"
+										name="amount" onkeyup="showHint(this.value, bookid.value)">
+								</div>
+								<div class="form-group">
+									<label>Price</label>  <span id="txtHint"></span></p> 
 								</div>
 							</form>
 						</div>
@@ -187,6 +204,66 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 					<button type="button" class="btn btn-primary" id="save">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modal1" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+					</button>
+					<h4 class="modal-title" id="modalTitle1"></h4>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-lg-12">
+							<form role="form" id="registerform2">
+								<div class="form-group">
+								    <label>Orderid</label>
+								    <select class="form-control" id="orderid">
+										<%
+											for (int i = 0; i < orderList.size(); i++) {
+												Order order = orderList.get(i);
+										%>
+										<option value="<%=order.getId()%>"><%=order.getId()%></option>
+										<%
+											}
+										%>
+									</select>
+								</div>
+								<div class="form-group">
+								    <label>Bookid</label>
+								    <select class="form-control" id="bookid">
+										<%
+											for (int i = 0; i < bookList.size(); i++) {
+												Book book = bookList.get(i);
+										%>
+										<option id="bookid" value="<%=book.getId()%>"><%=book.getId()%></option>
+										<%
+											}
+										%>
+									</select>
+								</div>
+								<div class="form-group">
+									<label>Amount</label> <input class="form-control" type="number" min="1"
+										name="amount" step="1">
+								</div>
+								<div class="form-group">
+									<label>Price</label> <input class="form-control" type="number"
+										name="price" step="0.01">
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" id="update">Save</button>
 				</div>
 			</div>
 		</div>
@@ -208,6 +285,23 @@
 			});
 		});
 	</script>
+	<script src="bookstore/js/jquery.validate.min.js"></script>
+	                        <script>
+                window.onload = function(){
+                $("#registerform1").validate({
+            		messages:{
+            			amount:{
+            				min:"The amount must larger than 0"
+            			}
+            		}});
+                $("#registerform2").validate({
+            		messages:{
+            			amount:{
+            				min:"The amount must larger than 0"
+            			}
+            		}});
+                }
+        </script>
 
 </body>
 

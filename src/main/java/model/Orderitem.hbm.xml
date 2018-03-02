@@ -17,5 +17,8 @@
 		<property name="amount" type="int">
 			<column name="amount" />
 		</property>
+		<property name="price" type="double">
+			<column name="price" />
+		</property>
 	</class>
 </hibernate-mapping>

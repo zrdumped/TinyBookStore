@@ -3,13 +3,14 @@ $(function() {
 	$("#save").click(function(e) {
 		var username = $("input[name='username']").val();
 		var password = $("input[name='password']").val();
-		var role = $("input[name='role']").val();
+		var role = $("#userrole").val();
 		console.log(username, password, role);
 
 		var dataset = e.currentTarget.dataset;
 		var id = dataset.id;
 
 		if (id != "") { // Edit
+			var old = dataset.username;
 			jQuery.ajax({
 				url : 'updateUserPro',
 				processData : true,
@@ -18,13 +19,13 @@ $(function() {
 					id : id,
 					username : username,
 					password : password,
-					role : role
+					role : role,
+					old : old
 				},
 				success : function(data) {
 					console.log(id);
 					bootbox.alert({
-						message : 'Modify Successfully! '
-							+ 'PS: No change if foreign key does not exist!',
+						message : 'Modify Successfully! ',
 						callback : function() {
 							location.reload();
 						}
@@ -42,13 +43,18 @@ $(function() {
 					role : role
 				},
 				success : function(data) {
+					if(data=="0"){
 					bootbox.alert({
-						message : 'Add Successfully! '
-							+ 'PS: No change if foreign key does not exist!',
-						callback : function() {
-							location.reload();
-						}
-					});
+						message : 'username exists'
+					});}
+					else{
+						bootbox.alert({
+							message : 'success',
+							callback : function() {
+								location.reload();
+							}
+						});
+					}
 				}
 			})
 		}
@@ -82,8 +88,7 @@ $(function() {
 						success : function(data) {
 							console.log(id);
 							bootbox.alert({
-								message : 'Delete Successfully! '
-									+ 'PS: No change if foreign key does not exist!',
+								message : 'Delete Successfully! ',
 								callback : function() {
 									location.reload();
 								}
@@ -101,7 +106,7 @@ $(function() {
 
 		$("input[name='username']").val("");
 		$("input[name='password']").val("");
-		$("input[name='role']").val("");
+		$("#userrole").val("");
 
 		$("#save").attr("data-id", "");
 		$('#modal').modal('show');
@@ -115,10 +120,30 @@ $(function() {
 
 		$("input[name='username']").val(dataset.username);
 		$("input[name='password']").val(dataset.password);
-		$("input[name='role']").val(dataset.role);
+		$("#userrole").val(dataset.role);
 
 		$("#save").attr("data-id", dataset.id);
 		$('#modal').modal('show');
+	});
+	
+	$(".detail").click(function(e) {
+		$('#modalTitle2').html("Detail");
+		var dataset = e.currentTarget.dataset;
+		var id = dataset.id;
+		console.log(id);
+
+		$("#username").html(dataset.username);
+		$("#password").html(dataset.password);
+		$("#sex").html(dataset.sex);
+		$("#city").html(dataset.city);
+		$("#country").html(dataset.country);
+		$("#phone").html(dataset.phone);
+		$("#email").html(dataset.email);
+		$("#age").html(dataset.age);
+		$("#job").html(dataset.job);
+
+		$("#save").attr("data-id", dataset.id);
+		$('#modal2').modal('show');
 	});
 
 });

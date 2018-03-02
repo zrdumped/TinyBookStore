@@ -22,6 +22,10 @@
 <link href="<%=path%>/bookstore/css/bookstore.css" rel="stylesheet">
 <link href="<%=path%>/bookstore/css/font-awesome.min.css"
 	rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="bookstore/css/bootstrap.min.css">  
+	<script src="bookstore/js/jquery.min.js"></script>
+	<script src="bookstore/js/bootstrap.min.js"></script>
+
 </head>
 
 <body>
@@ -35,44 +39,29 @@
 			userList = (ArrayList<User>) request.getAttribute("users");	
 		}
 	%>
-	<div id="wrapper">
 		<!-- Navigation -->
-		<nav class="navbar navbar-default navbar-static-top" role="navigation"
-			style="margin-bottom: 0">
-
-		<div class="navbar-header">
-			<a class="navbar-brand" href="#">BookStore</a>
-		</div>
-
-		<div class="navbar-default sidebar" role="navigation">
-			<div class="sidebar-nav navbar-collapse">
-				<ul class="nav" id="side-menu">
-					<li><a href="allUsersPro"><i class="fa fa-user fa-fw"></i>
-							Users</a></li>
-					<li><a href="allBooksPro"><i class="fa fa-book fa-fw"></i>
-							Books</a></li>
-					<li><a href="allOrdersPro" class="active"><i
-							class="fa fa-reorder fa-fw"></i> Orders</a></li>
-					<li><a href="allOrderitemsPro"><i
-							class="fa fa-table fa-fw"></i> Orderitems</a></li>
-				</ul>
-			</div>
-			<!-- /.sidebar-collapse -->
-		</div>
-		<!-- /.navbar-static-side --> </nav>
-
-		<div id="page-wrapper">
-			<div class="row">
-				<div class="col-lg-12">
-					<h1 class="page-header">Orders</h1>
-				</div>
-			</div>
+		<nav class="navbar  navbar-default " role="navigation">
+	<div class="container-fluid">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="allBooksClientPro">BOOK STORE</a>
+    </div>
+    <div>
+        <ul class="nav navbar-nav">
+            	<li><a href="allBooksPro"><span class="glyphicon glyphicon-book">Book</span></a></li>
+				<li><a href="allUsersPro"><span class="glyphicon glyphicon-user">User</span></a></li>
+				<li class="active"><a href="allOrdersPro"><span class="glyphicon glyphicon-th-list"  style="padding-bottom:7px">Order</span></a></li>
+				<li><a href="allOrderitemsPro"><span class="glyphicon glyphicon-th">Orderitem</span></a></li>
+				<li><a href="salesBookPro"><span class="glyphicon glyphicon-stats">Statistic</span></a></li>
+        </ul>
+    </div>
+	</div>
+</nav>
 			<!-- /.row -->
-			<div class="row">
+			<div class="container-fluid row">
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							add order
+							<font style="font-size:30px">Orders</font>
 							<button class="btn btn-default" type="button" id="add">
 								<i class="fa fa-plus"></i>
 							</button>
@@ -88,6 +77,7 @@
 											<th>Userid</th>
 											<th>Date</th>
 											<th>Orderitem ID List</th>
+											<th>Total price</th>
 											<th></th>
 										</tr>
 									</thead>
@@ -95,6 +85,7 @@
 										<%
 											for (int i = 0; i < orderList.size(); i++) {
 												Order order = orderList.get(i);
+												Double tot_price = 0.0;
 												Set<Orderitem> orderitems = order.getOrderitems();
 												ArrayList<String> orderitemStr = new ArrayList<String>();
 																												
@@ -102,6 +93,7 @@
 												while(iterator.hasNext()){
 													Orderitem item = (Orderitem)iterator.next();
 													orderitemStr.add(item.getId()+"");
+													tot_price += item.getPrice();
 												}
 										%>
 										<tr>
@@ -109,6 +101,7 @@
 											<td><%=order.getUserid()%></td>
 											<td><%=order.getDate()%></td>
 											<td><%=orderitemStr%></td>
+											<td><%=tot_price/100%></td>
 											<td>
 												<button class="btn btn-default delete" type="button"
 													data-id="<%=order.getId()%>">
@@ -136,10 +129,6 @@
 				<!-- /.col-lg-12 -->
 			</div>
 			<!-- /.row -->
-		</div>
-		<!-- /#page-wrapper -->
-	</div>
-	<!-- /#wrapper -->
 
 	<div class="modal fade" id="modal" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
@@ -169,8 +158,13 @@
 									</select>
 								</div>
 								<div class="form-group">
-									<label>Date</label> <input class="form-control" type="date"
-										name="date">
+									<label>Date </label>
+									<div id="time">    
+                						<script>     
+                							document.getElementById('time').innerHTML=new Date().toLocaleString();     
+                							setInterval("document.getElementById('time').innerHTML=new Date().toLocaleString();",1000);  
+                						</script>    
+									</div>
 								</div>
 							</form>
 						</div>

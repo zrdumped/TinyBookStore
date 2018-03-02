@@ -1,6 +1,6 @@
 package model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,12 +8,12 @@ public class Order {
 
 	private int id;
 	private int userid;
-	private Date date;
+	private Timestamp date;
 
 	public Order() {
 	}
 
-	public Order(int userid, Date date) {
+	public Order(int userid, Timestamp date) {
 		this.userid = userid;
 		this.date = date;
 	}
@@ -34,11 +34,11 @@ public class Order {
 		this.userid = userid;
 	}
 
-	public Date getDate() {
+	public Timestamp getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(Timestamp date) {
 		this.date = date;
 	}
 

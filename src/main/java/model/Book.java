@@ -1,26 +1,41 @@
 package model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Book {
+
+	@Override
+	public String toString() {
+		return "{\"id\":\"" + id + "\", \"title\":\"" + title + "\", \"author\":\"" + author + "\", \"price\":\""
+				+ price + "\", \"publisher\":\"" + publisher + "\", \"date\":\"" + date + "\", \"image\":\"" + image
+				+ "\", \"stock\":\"" + stock + "\", \"detail\":\"" + detail + "\", \"type\":\"" + type + "\"}";
+	}
 
 	private int id;
 	private String title;
 	private String author;
 	private double price;
 	private String publisher;
-	private Date date;
+	private Timestamp date;
+	private String image;
+	private int stock;
+	private String detail;
+	private String type;
 
 	public Book() {
 	}
 
 	public Book(String title, String author, double price, String publisher,
-			Date date) {
+			Timestamp date, String image, int stock, String detail, String type) {
 		this.title = title;
 		this.author = author;
 		this.price = price;
 		this.publisher = publisher;
 		this.date = date;
+		this.image = image;
+		this.stock = stock;
+		this.detail = detail;
+		this.type = type;
 	}
 
 	public int getId() {
@@ -48,11 +63,11 @@ public class Book {
 	}
 
 	public double getPrice() {
-		return price;
+		return price / 100.0;
 	}
 
 	public void setPrice(double price) {
-		this.price = price;
+		this.price = price * 100.0;
 	}
 
 	public String getPublisher() {
@@ -63,12 +78,44 @@ public class Book {
 		this.publisher = publisher;
 	}
 
-	public Date getDate() {
+	public Timestamp getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	public void setDate(Timestamp date) {
 		this.date = date;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public int getStock() {
+		return stock;
+	}
+
+	public void setStock(int stock) {
+		this.stock = stock;
+	}
+
+	public String getDetail() {
+		return detail;
+	}
+
+	public void setDetail(String detail) {
+		this.detail = detail;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

@@ -2,6 +2,8 @@ package dao;
 
 import java.util.List;
 
+import model.Cart;
+import model.Order;
 import model.User;
 
 public interface UserDao {
@@ -15,5 +17,12 @@ public interface UserDao {
 	public User getUserById(int id);
 
 	public List<User> getAllUsers();
+	
+	public User login(String username, String password);
+	
+	public Integer signup(String username, String password);
+	
+	public User getUserByUsername(String username);
+	
 
 }

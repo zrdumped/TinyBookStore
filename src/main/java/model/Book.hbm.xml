@@ -20,8 +20,20 @@
 		<property name="publisher" type="java.lang.String">
 			<column name="publisher" />
 		</property>
-		<property name="date" type="java.sql.Date">
+		<property name="date" type="java.sql.Timestamp">
 			<column name="date" />
+		</property>
+		<property name="detail" type="java.lang.String">
+			<column name="detail" />
+		</property>
+		<property name="image" type="java.lang.String">
+			<column name="image" />
+		</property>
+		<property name="type" type="java.lang.String">
+			<column name="type" />
+		</property>
+		<property name="stock" type="int">
+			<column name="stock" />
 		</property>
 	</class>
 </hibernate-mapping>

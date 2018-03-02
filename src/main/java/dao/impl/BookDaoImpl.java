@@ -1,5 +1,6 @@
 package dao.impl;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import model.Book;
@@ -34,6 +35,22 @@ public class BookDaoImpl extends HibernateDaoSupport implements BookDao {
 		@SuppressWarnings("unchecked")
 		List<Book> books = (List<Book>) getHibernateTemplate()
 				.find("from Book");
+		return books;
+	}
+	
+	public Book getBookByName(String name){
+		@SuppressWarnings("unchecked")
+		List<Book> books = (List<Book>) getHibernateTemplate()
+				.find("from Book as b where b.title = ?", name);
+		return books.get(0);
+	}
+	
+	public List<Book> searchBooks(String key) throws UnsupportedEncodingException{
+		key = new String(key.getBytes("ISO-8859-1"),"utf-8");
+		@SuppressWarnings("unchecked")
+		List<Book> books = (List<Book>) getHibernateTemplate()
+				.find("from Book as b where b.title like ? or b.type like ?", '%'+key+'%', key);
+		System.out.println(books.size()+"wlejfhwkehfkwe");
 		return books;
 	}
 

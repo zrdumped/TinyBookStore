@@ -6,7 +6,7 @@
 <title>BookStore</title>
 
 <%
-	response.sendRedirect("allUsersPro");
+	response.sendRedirect("allBooksClientPro");
 %>
 
 </head>

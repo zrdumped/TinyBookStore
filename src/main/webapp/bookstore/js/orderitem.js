@@ -4,12 +4,43 @@ $(function() {
 		var orderid = $("#orderid").val();
 		var bookid = $("#bookid").val();
 		var amount = $("input[name='amount']").val();
-		console.log(orderid, bookid, amount);
-
+		var price = $("input[name='price']").val();
+		console.log(orderid, bookid, amount, price);
 		var dataset = e.currentTarget.dataset;
 		var id = dataset.id;
+			jQuery.ajax({
+				url : 'addOrderitemPro',
+				processData : true,
+				dataType : "text",
+				data : {
+					orderid : orderid,
+					bookid : bookid,
+					amount : amount,
+					price : price
+				},
+				success : function(data) {
+					bootbox.alert({
+						message : 'Add Successfully! ',
+						callback : function() {
+							location.reload();
+						}
+					});
+				}
+			})
+		
 
-		if (id != "") { // Edit
+		$('#modal').modal('hide');
+	});
+	
+	$("#update").click(function(e) {
+		var orderid = $("#orderid").val();
+		var bookid = $("#bookid").val();
+		var amount = $("input[name='amount']").val();
+		var price = $("input[name='price']").val();
+		console.log(orderid, bookid, amount, price);
+		
+		var dataset = e.currentTarget.dataset;
+		var id = dataset.id;
 			jQuery.ajax({
 				url : 'updateOrderitemPro',
 				processData : true,
@@ -18,43 +49,24 @@ $(function() {
 					id : id,
 					orderid : orderid,
 					bookid : bookid,
-					amount : amount
+					amount : amount,
+					price : price
 				},
 				success : function(data) {
 					console.log(id);
 					bootbox.alert({
-						message : 'Modify Successfully! '
-							+ 'PS: No change if foreign key does not exist!',
-					    callback : function() {
-					       location.reload();
-					    }
-					});
-				}
-			});
-		} else { // Add
-			jQuery.ajax({
-				url : 'addOrderitemPro',
-				processData : true,
-				dataType : "text",
-				data : {
-					orderid : orderid,
-					bookid : bookid,
-					amount : amount
-				},
-				success : function(data) {
-					bootbox.alert({
-						message : 'Add Successfully! '
-							+ 'PS: No change if foreign key does not exist!',
+						message : 'Add Successfully! ',
 						callback : function() {
 							location.reload();
 						}
 					});
 				}
 			})
-		}
+		
 
-		$('#modal').modal('hide');
+		$('#modal1').modal('hide');
 	});
+
 
 	$(".delete").click(function(e) {
 		bootbox.confirm({
@@ -82,8 +94,7 @@ $(function() {
 						success : function(data) {
 							console.log(id);
 							bootbox.alert({
-								message : 'Delete Successfully! '
-									+ 'PS: No change if foreign key does not exist!',
+								message : 'Delete Successfully! ',
 							    callback : function() {
 									location.reload();
 								}
@@ -102,23 +113,25 @@ $(function() {
 		$("#orderid").val("");
 		$("#bookid").val("");
 		$("input[name='amount']").val("");
+		$("input[name='price']").val("");
 
 		$("#save").attr("data-id", "");
 		$('#modal').modal('show');
 	});
 
 	$(".edit").click(function(e) {
-		$('#modalTitle').html("Edit");
+		$('#modalTitle1').html("Edit");
 		var dataset = e.currentTarget.dataset;
 		var id = dataset.id;
 		console.log(id);
 
 		$("#orderid").val(dataset.orderid);
 		$("#bookid").val(dataset.bookid);
+		$("input[name='price']").val(dataset.price);
 		$("input[name='amount']").val(dataset.amount);
 
-		$("#save").attr("data-id", dataset.id);
-		$('#modal').modal('show');
+		$("#update").attr("data-id", dataset.id);
+		$('#modal1').modal('show');
 	});
 
 });

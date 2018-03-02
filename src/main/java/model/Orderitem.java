@@ -6,14 +6,16 @@ public class Orderitem {
 	private int orderid;
 	private int bookid;
 	private int amount;
+	private double price;
 
 	public Orderitem() {
 	}
 
-	public Orderitem(int orderid, int bookid, int amount) {
+	public Orderitem(int orderid, int bookid, int amount, double price) {
 		this.orderid = orderid;
 		this.bookid = bookid;
 		this.amount = amount;
+		this.setPrice(price);
 	}
 
 	public int getId() {
@@ -57,5 +59,14 @@ public class Orderitem {
 	public void setOrder(Order order) {
 		this.order = order;
 	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
 
 }
